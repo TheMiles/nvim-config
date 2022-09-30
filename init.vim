@@ -27,15 +27,17 @@ set ttyfast                 " Speed up scrolling in Vim
 
 call plug#begin()
 
-Plug 'preservim/nerdtree' " File system explorer sidebar
-Plug 'Xuyuanp/nerdtree-git-plugin' " Show git status icons in NerdTree
-Plug 'ryanoasis/vim-devicons' " Using NerdFont compatible icons, used in NerdTree
+Plug 'preservim/nerdtree'                            " File system explorer sidebar
+Plug 'Xuyuanp/nerdtree-git-plugin'                   " Show git status icons in NerdTree
+Plug 'ryanoasis/vim-devicons'                        " Using NerdFont compatible icons, used in NerdTree
 
-Plug 'tpope/vim-commentary' " Easy commenting out lines
-Plug 'preservim/tagbar' " Browse universal-ctags files 
+Plug 'tpope/vim-commentary'                          " Easy commenting out lines
+Plug 'preservim/tagbar'                              " Browse universal-ctags files
 
-Plug 'vim-airline/vim-airline' " Some statusline
-Plug 'rafi/awesome-vim-colorschemes' " Color scheme selector
+Plug 'vim-airline/vim-airline'                       " Some statusline
+Plug 'rafi/awesome-vim-colorschemes'                 " Color scheme selector
+
+Plug 'neoclide/coc.nvim', {'branch': 'release'}      " load extensions like VS Code and language servers
 
 call plug#end()
 
