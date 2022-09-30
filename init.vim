@@ -9,34 +9,16 @@
 
 call plug#begin()
 
-" File system explorer sidebar
-" https://github.com/preservim/nerdtree
-Plug 'preservim/nerdtree'
+Plug 'preservim/nerdtree' " File system explorer sidebar
+Plug 'Xuyuanp/nerdtree-git-plugin' " Show git status icons in NerdTree
+Plug 'ryanoasis/vim-devicons' " Using NerdFont compatible icons, used in NerdTree
 
-" Show git status icons in NerdTree
-" https://github.com/Xuyuanp/nerdtree-git-plugin
-Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'tpope/vim-commentary' " Easy commenting out lines
+Plug 'preservim/tagbar' " Browse universal-ctags files 
 
-" vim-airline
-" Enhanced statusline
-" https://github.com/vim-airline/vim-airline
-Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline' " Some statusline
+Plug 'rafi/awesome-vim-colorschemes' " Color scheme selector
 
-" Using NerdFont compatible icons
-" https://github.com/ryanoasis/vim-devicons
-Plug 'ryanoasis/vim-devicons'
-
-" Commenting out line(s)
-" https://github.com/tpope/vim-commentary
-Plug 'tpope/vim-commentary'
-
-" Color scheme selector
-" https://github.com/rafi/awesome-vim-colorschemes
-Plug 'rafi/awesome-vim-colorschemes'
-
-" Browse universal-ctags files
-" https://github.com/preservim/tagbar
-Plug 'preservim/tagbar'
 call plug#end()
 
 " unset Continue with comment leader in next line
