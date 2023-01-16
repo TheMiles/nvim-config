@@ -24,6 +24,14 @@ set ttyfast                 " Speed up scrolling in Vim
 " set noswapfile            " disable creating swap file
 " set backupdir=~/.cache/vim " Directory to store backup files.
 
+# For compatibilit reasons /bin is linked to /usr/bin
+# when checking for python executables it shows up twice
+# so lets tell neovim which one is the right one
+let g:python3_host_prog = '/usr/bin/python3'
+
+# disable looking for the perl provider
+# thus no warning in :checkhealth
+let g:loaded_perl_provider = 0
 
 call plug#begin()
 
