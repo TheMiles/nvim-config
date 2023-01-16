@@ -44,6 +44,7 @@ Plug 'preservim/tagbar'                              " Browse universal-ctags fi
 
 Plug 'vim-airline/vim-airline'                       " Some statusline
 Plug 'rafi/awesome-vim-colorschemes'                 " Color scheme selector
+Plug 'xiyaowong/nvim-cursorword'                     " Highlighting occurences of word under cursor
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}      " load extensions like VS Code and language servers
 
