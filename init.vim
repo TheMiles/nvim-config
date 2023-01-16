@@ -46,6 +46,8 @@ Plug 'vim-airline/vim-airline'                       " Some statusline
 Plug 'rafi/awesome-vim-colorschemes'                 " Color scheme selector
 Plug 'xiyaowong/nvim-cursorword'                     " Highlighting occurences of word under cursor
 
+Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}        " making interaction with terminal easier
+
 Plug 'neoclide/coc.nvim', {'branch': 'release'}      " load extensions like VS Code and language servers
 
 call plug#end()
