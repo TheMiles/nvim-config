@@ -7,7 +7,9 @@ anything functional here....
 
 And right at the moment I'm moving my current setup from 
 init.vim to completely using lua. So at the beginning
-it will be a downgrade.
+it will be a downgrade. Stuff is heavily influenced by
+[neovim configuration from brainfuck](https://github.com/brainfucksec/neovim-lua)
+
 
 # Content
 
@@ -19,6 +21,13 @@ it will be a downgrade.
 ## Check health
 
 use `:checkhealth` to get a first overview of the current status of the system.
+
+# Structure
+
+* `init.lua` - main configuration file, used to only reference other config files
+* `lua` - Containing all the lua stuff
+  * `core` - All main configuration files
+    * `options.lua` - Config options for vim and neovim
 
 # Resources
 
