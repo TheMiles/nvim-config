@@ -8,7 +8,7 @@ anything functional here....
 And right at the moment I'm moving my current setup from 
 init.vim to completely using lua. So at the beginning
 it will be a downgrade. Stuff is heavily influenced by
-[neovim configuration from brainfuck](https://github.com/brainfucksec/neovim-lua)
+[neovim configuration from brainfucksec(https://github.com/brainfucksec/neovim-lua)
 
 
 # Content
