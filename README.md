@@ -15,6 +15,7 @@ it will be a downgrade. Stuff is heavily influenced by
 
 * [Installation](#installation)
 * [Structure](#structure)
+* [Plugins](#plugins)
 * [Resources](#resources)
 
 
@@ -24,6 +25,17 @@ it will be a downgrade. Stuff is heavily influenced by
 
 use `:checkhealth` to get a first overview of the current status of the system.
 
+## Packages
+
+Some specific packages should be present on the system
+
+```
+python3
+ruby
+git
+```
+
+
 # Structure
 
 * `init.lua` - main configuration file, used to only reference other config files
@@ -32,6 +44,42 @@ use `:checkhealth` to get a first overview of the current status of the system.
     * `options.lua` - Config options for vim and neovim
     * `keymaps.lua` - All keybindings, generic and specific for plugins
     * `plugins.lua` - enabling of used plugins. For details see [section about plugins](#plugins)
+
+# Plugins
+
+For handling plugins the [packer plugin manager](https://github.com/wbthomason/packer.nvim) is used.
+The basic setup should happen automatically.
+
+The overall configuration is handled in `lua/core/plugins.lua`. Here you enable all the plugins by adding them to the list. Specific configuration for each plugin is supposed to be done in separate files in `lua/plugins/...`.
+
+Whenever you make changes to the plugins configuration you have to run `:PackerCompile`. 
+Here is a list of different commands provided by packer:
+
+```lua
+-- You must run this or `PackerSync` whenever you make changes to your plugin configuration
+-- Regenerate compiled loader file
+:PackerCompile
+
+-- Remove any disabled or unused plugins
+:PackerClean
+
+-- Clean, then install missing plugins
+:PackerInstall
+
+-- Clean, then update and install plugins
+-- supports the `--preview` flag as an optional first argument to preview updates
+:PackerUpdate
+
+-- Perform `PackerUpdate` and then `PackerCompile`
+-- supports the `--preview` flag as an optional first argument to preview updates
+:PackerSync
+
+-- Show list of installed plugins
+:PackerStatus
+
+-- Loads opt plugin immediately
+:PackerLoad completion-nvim ale
+```
 
 # Resources
 
