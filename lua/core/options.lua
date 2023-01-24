@@ -19,7 +19,8 @@ opt.clipboard      = 'unnamedplus' -- use system clipboard
 opt.showmatch      = true   -- Show matching parenthesis
 opt.number         = true   -- show line numbers
 opt.relativenumber = true   -- line numbers show relative distance
-opt.cursorline     = false   -- highlight line with cursor
+opt.cursorline     = false  -- highlight line with cursor
+opt.termguicolors  = true   -- enable 24 bit RGB color (needed for nvim-tree) 
 
 -----------------------------------------------------------
 -- Behaviour
@@ -62,17 +63,10 @@ g.loaded_perl_provider = 0
 
 
 -----------------------------------------------------------
--- 
+-- Plugin derived options
 -----------------------------------------------------------
------------------------------------------------------------
--- 
------------------------------------------------------------
------------------------------------------------------------
--- 
------------------------------------------------------------
------------------------------------------------------------
--- 
------------------------------------------------------------
------------------------------------------------------------
--- 
------------------------------------------------------------
+
+-- disable internal file explore to not interfere with nvim-tree
+g.loaded_netrw = 1
+g.loaded_netrwPlugin = 1
+

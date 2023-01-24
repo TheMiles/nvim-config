@@ -21,6 +21,8 @@ it will be a downgrade. Stuff is heavily influenced by
 
 # Installation
 
+Needed neovim version >=**0.8.0**
+
 ## Check health
 
 use `:checkhealth` to get a first overview of the current status of the system.
@@ -80,6 +82,22 @@ Here is a list of different commands provided by packer:
 -- Loads opt plugin immediately
 :PackerLoad completion-nvim ale
 ```
+
+## Specific plugins
+
+### nvim-tree
+
+[`nvim-tree`](https://github.com/nvim-tree/nvim-tree.lua) is a file explorer. 
+Making it easier to browse the available files
+
+Shortcuts
+
+```
+```
+
+### nvim-web-devicons
+
+[`nvim-web-devicons`](https://github.com/nvim-tree/nvim-web-devicons) adds filetype glyphs and colors.
 
 # Resources
 

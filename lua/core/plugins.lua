@@ -38,11 +38,8 @@ vim.cmd [[
 return require('packer').startup(function(use)
     use 'wbthomason/packer.nvim'
 
-    -- My plugins here
-    
-    -- use 'foo1/bar1.nvim'
-    -- use 'foo2/bar2.nvim'
-    
+    -- nvim tree requires web-devicons for file icons
+    use { 'nvim-tree/nvim-tree.lua', requires = {'nvim-tree/nvim-web-devicons'} }
 
     
     -- Automatically set up your configuration after cloning packer.nvim
