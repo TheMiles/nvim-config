@@ -14,7 +14,9 @@ it will be a downgrade. Stuff is heavily influenced by
 # Content
 
 * [Installation](#installation)
+* [Structure](#structure)
 * [Resources](#resources)
+
 
 # Installation
 
@@ -28,6 +30,8 @@ use `:checkhealth` to get a first overview of the current status of the system.
 * `lua` - Containing all the lua stuff
   * `core` - All main configuration files
     * `options.lua` - Config options for vim and neovim
+    * `keymaps.lua` - All keybindings, generic and specific for plugins
+    * `plugins.lua` - enabling of used plugins. For details see [section about plugins](#plugins)
 
 # Resources
 
