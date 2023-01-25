@@ -36,7 +36,9 @@ python3
 ruby
 git
 ```
+## Nerdfonts
 
+Make sure to install and enable [Nerd Fonts](https://www.nerdfonts.com/)
 
 # Structure
 
