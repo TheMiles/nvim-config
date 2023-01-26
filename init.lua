@@ -16,4 +16,5 @@ require('core.keymaps')
 -- Plugin configuration
 
 require('plugins.nvim-tree')
+require('plugins.feline')
 

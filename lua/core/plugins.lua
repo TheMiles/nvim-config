@@ -41,6 +41,8 @@ return require('packer').startup(function(use)
     -- nvim tree requires web-devicons for file icons
     use { 'nvim-tree/nvim-tree.lua', requires = {'nvim-tree/nvim-web-devicons'} }
 
+    use { 'feline-nvim/feline.nvim', requires = {'nvim-tree/nvim-web-devicons'} }
+
     
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins

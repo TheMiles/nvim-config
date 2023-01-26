@@ -101,6 +101,10 @@ Shortcuts
 
 [`nvim-web-devicons`](https://github.com/nvim-tree/nvim-web-devicons) adds filetype glyphs and colors.
 
+### feline
+
+[`feline`](https://github.com/feline-nvim/feline.nvim) a minimal, stylish and customizable statusline
+
 # Resources
 
 ## neovim
