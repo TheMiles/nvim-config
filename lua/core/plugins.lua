@@ -43,7 +43,11 @@ return require('packer').startup(function(use)
 
     use { 'feline-nvim/feline.nvim', requires = {'nvim-tree/nvim-web-devicons'} }
 
+    -- themes and colorschemes
     use 'sainnhe/sonokai'
+    use 'Mofiqul/dracula.nvim'
+    use 'folke/tokyonight.nvim'
+
 
     
     -- Automatically set up your configuration after cloning packer.nvim
