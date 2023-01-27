@@ -43,6 +43,8 @@ return require('packer').startup(function(use)
 
     use { 'feline-nvim/feline.nvim', requires = {'nvim-tree/nvim-web-devicons'} }
 
+    use 'sainnhe/sonokai'
+
     
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
