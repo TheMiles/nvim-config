@@ -30,7 +30,7 @@ opt.ignorecase     = true   -- Ignore case when searching
 opt.mouse          = 'a'    -- Enable mouse support (all modes)
 opt.hlsearch       = true   -- Highlight search results
 opt.incsearch      = true   -- Search while typing
-opt.wildmode       = 'longest,full' -- commandline completion
+opt.wildmode       = 'longest,longest:full' -- commandline completion
                             -- complete longest and present
 							-- possible matches
 opt.completeopt    = 'menuone,noinsert' -- autocomplete options
