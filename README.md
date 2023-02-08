@@ -15,6 +15,7 @@ it will be a downgrade. Stuff is heavily influenced by
 
 * [Installation](#installation)
 * [Structure](#structure)
+* [Keymaps](#keymaps)
 * [Plugins](#plugins)
 * [Resources](#resources)
 
@@ -48,6 +49,14 @@ Make sure to install and enable [Nerd Fonts](https://www.nerdfonts.com/)
     * `options.lua` - Config options for vim and neovim
     * `keymaps.lua` - All keybindings, generic and specific for plugins
     * `plugins.lua` - enabling of used plugins. For details see [section about plugins](#plugins)
+
+# Keymaps
+
+## Searching
+
+`/` invoke incremental search
+`C-g` move to next match
+`C-t` move to previous match
 
 # Plugins
 
