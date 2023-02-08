@@ -10,8 +10,6 @@
 -- help for specific options help: nvim-tree.option
 
 require('nvim-tree').setup {
-    open_on_setup = true,
-    open_on_setup_file = true,
     renderer = {
       highlight_git = true,
       highlight_opened_files = "all",
@@ -54,4 +52,25 @@ vim.api.nvim_create_autocmd("BufEnter", {
 })
 
 
+-- Function to handle nvim opening behavior
+-- Open the nvim-tree when nvim opens a dir
+-- more information here: https://github.com/nvim-tree/nvim-tree.lua/wiki/Open-At-Startup
+
+local function open_nvim_tree(data)
+
+  -- buffer is a directory
+  local directory = vim.fn.isdirectory(data.file) == 1
+
+  if not directory then
+    return
+  end
+
+  -- change to the directory
+  vim.cmd.cd(data.file)
+
+  -- open the tree
+  require("nvim-tree.api").tree.open()
+end
+
+vim.api.nvim_create_autocmd({ "VimEnter" }, { callback = open_nvim_tree })
 
