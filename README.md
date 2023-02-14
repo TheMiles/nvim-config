@@ -16,6 +16,7 @@ it will be a downgrade. Stuff is heavily influenced by
 * [Installation](#installation)
 * [Structure](#structure)
 * [Keymaps](#keymaps)
+* [General](#general)
 * [Plugins](#plugins)
 * [Resources](#resources)
 
@@ -54,9 +55,40 @@ Make sure to install and enable [Nerd Fonts](https://www.nerdfonts.com/)
 
 ## Searching
 
-`/` invoke incremental search
-`C-g` move to next match
-`C-t` move to previous match
+* `/` invoke incremental search
+* `C-g` move to next match
+* `C-t` move to previous match
+
+## Insert register
+
+In *insert* or *command* mode you can insert content of a register by pressing `C-r <register_name>` where [register_name](#registers) is the according key. 
+
+
+# General 
+
+## Register
+
+vim offers several different registers. They are either automatically or explicitly filled. 
+
+They can be accessed by prepending `"` to the register name. For example you are in *visual* mode 
+and want to yank the current selection to the *named register* e, then you would enter `"ey`.
+
+To read from the register in *insert* or *command* mode you can use `C-r <register_name>`
+
+These are the different register names:
+
+* `"` The *unnamed* register. Contains last yanked/deleted region (if not specifically writing to named register or black hole)
+* `-` the last small delete (smaller than a line)
+* `_` The black hole. Anything you write to this register is lost.
+* `0`-`9` Numbered register. Yank/delete fills according region in `0` and shifts previous content by one *number*
+* `a`-`z`, `A`-`Z` *named* registers. Can be used to store something in it.
+* `%` **read only** Current filename with full path
+* `#` alternate filename (the previous file in this buffer, if applicable)
+* `*` or `+` clipboard
+* `/` Last search pattern
+* `:` **read only** Last command line
+* `.` **read only** Last inserted text (Does *not* work with `C-r` on command line)
+* `=` The *expression* register. All subsequent inputs until `<CR>` (or `<ESC>`) are evaluated as a command (or abandoned) 
 
 # Plugins
 
