@@ -46,6 +46,14 @@ opt.path:remove      "/usr/include" -- remove include dir from
                                     -- search path
 opt.path:append      "**"   -- Search recursively in cur dir
 
+
+-----------------------------------------------------------
+-- ignore specific search paths
+-----------------------------------------------------------
+
+opt.wildignore:append "**/.git/*"
+opt.wildignore:append "**/build/*"
+
 -----------------------------------------------------------
 -- tabs, whitespace
 -----------------------------------------------------------
