@@ -26,11 +26,11 @@ opt.termguicolors  = true   -- enable 24 bit RGB color (needed for nvim-tree)
 -- Behaviour
 -----------------------------------------------------------
 
-opt.ignorecase     = true   -- Ignore case when searching
 opt.mouse          = 'a'    -- Enable mouse support (all modes)
 opt.wildmode       = 'longest,longest:full' -- commandline completion
                             -- complete longest and present
 							-- possible matches
+opt.wildignorecase = true   -- ignore case in completion
 opt.completeopt    = 'menuone,noinsert' -- autocomplete options
                             -- provide menu even with one entry
 							-- insert explicitly
@@ -39,6 +39,7 @@ opt.completeopt    = 'menuone,noinsert' -- autocomplete options
 -- Searching
 -----------------------------------------------------------
 
+opt.ignorecase     = true   -- Ignore case when searching
 opt.hlsearch       = true   -- Highlight search results
 opt.incsearch      = true   -- Search while typing
 opt.path:remove      "/usr/include" -- remove include dir from
