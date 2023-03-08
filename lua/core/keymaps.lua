@@ -51,5 +51,15 @@ nmap('<S-l>',':bnext<CR>')     -- S-l to switch to next buffer
 nmap('<C-b>', ':NvimTreeToggle<CR>')  -- open/close
 
 -----------------------------------------------------------
+-- Mappings for fzf-lua 
+-----------------------------------------------------------
+
+nmap('<C-p>', ':FzfLua files<CR>') -- fzf with files
+nmap('<C-\\>', ':FzfLua buffers<CR>') -- fzf with currently open buffers 
+nmap('<C-g>', ':FzfLua grep<CR>') -- call rg
+nmap('<C-l>', ':FzfLua live_grep<CR>') -- live rg
+nmap('<C-k>', ':FzfLua keymaps<CR>') -- fzf in available keymaps
+
+-----------------------------------------------------------
 --  
 -----------------------------------------------------------

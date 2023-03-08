@@ -43,6 +43,8 @@ return require('packer').startup(function(use)
 
     use { 'feline-nvim/feline.nvim', requires = {'nvim-tree/nvim-web-devicons'} }
 
+    use { 'ibhagwan/fzf-lua',        requires = {'nvim-tree/nvim-web-devicons'} }
+
     -- themes and colorschemes
     use 'sainnhe/sonokai'
     use 'Mofiqul/dracula.nvim'

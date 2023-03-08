@@ -62,6 +62,10 @@ Make sure to install and enable [Nerd Fonts](https://www.nerdfonts.com/)
 * `/` invoke incremental search
 * `C-g` move to next match
 * `C-t` move to previous match
+* `C-p` fzf a file
+* `C-\` fzf open buffers
+* `C-l` do a live grep (using rg)
+* `C-k` search available keymaps
 
 ## Insert register
 
@@ -149,6 +153,20 @@ Shortcuts
 ### feline
 
 [`feline`](https://github.com/feline-nvim/feline.nvim) a minimal, stylish and customizable statusline
+
+### fzf-lua
+
+[`fzf-lua`](https://github.com/ibhagwan/fzf-lua) lua implementation for using fzf
+
+Some [general introduction about fzf on YT](https://www.youtube.com/watch?v=qgG5Jhi_Els)
+
+Shortcuts
+
+* `C-p` Search for files
+* `C-\` Search for buffers
+* `C-g` Grep - search for grep expression and then interactively search the results
+* `C-l` Live grep - interactively search for grep expression
+* `C-k` Keymaps
 
 # Resources
 
