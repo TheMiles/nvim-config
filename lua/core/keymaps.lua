@@ -36,5 +36,15 @@ imap('kj','<esc>') -- use kj instead of esc
 nmap('<C-b>', ':NvimTreeToggle<CR>')  -- open/close
 
 -----------------------------------------------------------
+-- Mappings for fzf-lua 
+-----------------------------------------------------------
+
+nmap('<C-p', ':FzfLua files<CR>') -- fzf with files
+nmap('<C-\\', ':FzfLua buffers<CR>') -- fzf with files
+nmap('<C-g', ':FzfLua grep<CR>') -- fzf with files
+nmap('<C-l', ':FzfLua live_grep<CR>') -- fzf with files
+nmap('<C-k', ':FzfLua keymaps<CR>') -- fzf with files
+
+-----------------------------------------------------------
 --  
 -----------------------------------------------------------
