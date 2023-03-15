@@ -22,12 +22,27 @@ local function imap(shortcut, command, additional_options)
     map('i', shortcut, command, additional_options)
 end
 
+local function vmap(shortcut, command, additional_options)
+    map('v', shortcut, command, additional_options)
+end
+
+local function tmap(shortcut, command, additional_options)
+    map('t', shortcut, command, additional_options)
+end
 
 -----------------------------------------------------------
 --  Generic keybindings
 -----------------------------------------------------------
 
-imap('kj','<esc>') -- use kj instead of esc
+imap('jk','<esc>') -- use jk instead of esc
+tmap('jk','<C-\\><C-n>') -- use jk to escape terminal
+
+vmap('>','>gv') -- better indentation in visual mode
+vmap('<','<gv') -- better indentation in visual mode
+
+nmap('<S-h>',':bprevious<CR>') -- S-h to switch to prev. buffer
+nmap('<S-l>',':bnext<CR>')     -- S-l to switch to next buffer
+
 
 -----------------------------------------------------------
 --  Mappings for nvim tree
