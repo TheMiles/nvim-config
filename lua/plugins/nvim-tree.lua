@@ -6,25 +6,6 @@
 -----------------------------------------------------------
 
 
--- get help with :help nvim-tree.setup
--- help for specific options help: nvim-tree.option
-
-require('nvim-tree').setup {
-    renderer = {
-      highlight_git = true,
-      highlight_opened_files = "all",
-      highlight_modified = "all",
-	},
-    update_focused_file = {
-      enable = true,
-    },
-    diagnostics = {
-      enable = true,
-    },
-    modified = {
-      enable = true,
-    },
-}
 
 -- helper to close nvim-tree if it is the last buffer
 -- taken from this discussion:
@@ -74,3 +55,32 @@ end
 
 vim.api.nvim_create_autocmd({ "VimEnter" }, { callback = open_nvim_tree })
 
+-- get help with :help nvim-tree.setup
+-- help for specific options help: nvim-tree.option
+
+return {
+  "nvim-tree/nvim-tree.lua",
+  version = "*",
+  lazy = false,
+  dependencies = {
+    "nvim-tree/nvim-web-devicons",
+  },
+  config = function()
+    require("nvim-tree").setup {
+        renderer = {
+          highlight_git = true,
+          highlight_opened_files = "all",
+          highlight_modified = "all",
+        },
+        update_focused_file = {
+          enable = true,
+        },
+        diagnostics = {
+          enable = true,
+        },
+        modified = {
+          enable = true,
+        },
+    }
+  end,
+}

@@ -49,7 +49,7 @@ Make sure to install and enable [Nerd Fonts](https://www.nerdfonts.com/)
   * `core` - All main configuration files
     * `options.lua` - Config options for vim and neovim
     * `keymaps.lua` - All keybindings, generic and specific for plugins
-    * `plugins.lua` - enabling of used plugins. For details see [section about plugins](#plugins)
+    * `lazy_config.lua` - enabling of used plugins. For details see [section about plugins](#plugins)
 
 # Keymaps
 
@@ -100,39 +100,22 @@ These are the different register names:
 
 # Plugins
 
-For handling plugins the [packer plugin manager](https://github.com/wbthomason/packer.nvim) is used.
+For handling plugins the [lazy plugin manager](https://github.com/folke/lazy.nvim) is used.
 The basic setup should happen automatically.
 
-The overall configuration is handled in `lua/core/plugins.lua`. Here you enable all the plugins by adding them to the list. Specific configuration for each plugin is supposed to be done in separate files in `lua/plugins/...`.
+The overall configuration is handled in `lua/core/lazy_config.lua`.
+Here you cna enable plugins by adding them to a list.
+If you need specific configuration for a plugin, you can also
+create a file in `lua/plugins/...`.
 
-Whenever you make changes to the plugins configuration you have to run `:PackerCompile`. 
-Here is a list of different commands provided by packer:
-
-```lua
--- You must run this or `PackerSync` whenever you make changes to your plugin configuration
--- Regenerate compiled loader file
-:PackerCompile
-
--- Remove any disabled or unused plugins
-:PackerClean
-
--- Clean, then install missing plugins
-:PackerInstall
-
--- Clean, then update and install plugins
--- supports the `--preview` flag as an optional first argument to preview updates
-:PackerUpdate
-
--- Perform `PackerUpdate` and then `PackerCompile`
--- supports the `--preview` flag as an optional first argument to preview updates
-:PackerSync
-
--- Show list of installed plugins
-:PackerStatus
-
--- Loads opt plugin immediately
-:PackerLoad completion-nvim ale
-```
+* `:Lazy health` equal to `:checkhealth lazy` get details about any problems with the packager.
+* `:Lazy` show lazy panel
+* `:Lazy help` help text
+* `:Lazy install` install missing packages
+* `:Lazy clean` remove unused packages
+* `:Lazy update` gets updates for packages
+* `:Lazy sync` calls install, clean, update
+* `:Lazy log` show changelog for packages
 
 ## Specific plugins
 
