@@ -58,11 +58,11 @@ opt.wildignore:append "**/build/*"
 -- tabs, whitespace
 -----------------------------------------------------------
 
-opt.tabstop        = 4      -- Number of columns occupied by tab
-opt.softtabstop    = 4      -- See multiple spaces as as tabstops
+opt.tabstop        = 2      -- Number of columns occupied by tab
+opt.softtabstop    = 2      -- See multiple spaces as as tabstops
                             -- so <BS> does the right thing
 opt.expandtab      = true   -- convert tabs into spaces
-opt.shiftwidth     = 4      -- number of spaces to use for indent
+opt.shiftwidth     = 2      -- number of spaces to use for indent
 opt.autoindent     = true   -- indent new line, to match current line
 
 
