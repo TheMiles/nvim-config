@@ -37,6 +37,7 @@ Some specific packages should be present on the system
 python3
 ruby
 git
+luarocks
 ```
 ## Nerdfonts
 
@@ -60,8 +61,8 @@ Make sure to install and enable [Nerd Fonts](https://www.nerdfonts.com/)
 ## Searching
 
 * `/` invoke incremental search
-* `C-g` move to next match
-* `C-t` move to previous match
+* `n` move to next match
+* `N` move to previous match
 * `C-p` fzf a file
 * `C-\` fzf open buffers
 * `C-l` do a live grep (using rg)
@@ -71,6 +72,76 @@ Make sure to install and enable [Nerd Fonts](https://www.nerdfonts.com/)
 
 In *insert* or *command* mode you can insert content of a register by pressing `C-r <register_name>` where [register_name](#registers) is the according key. 
 
+## Cheat sheet
+
+### Move cursor
+
+| Key | Does what | Key | Does what  |
+|-----|-----------|-----|------------|
+| `h` | Move left | `l` | Move right |
+| `j` | Move down | `k` | Move up    |
+
+### Move horizontally
+
+| Key    | Does what                    | Key | Does what             |
+|--------|------------------------------|-----|-----------------------|
+| `0`    | Move to line start           | `$` | Move to line end      |
+| `^`    | Move to first non blank char | `e` | Move to end of word   |
+| `w`    | Move to next word            | `b` | Move to previous word | 
+| `F<c>` | Move to next occurrence of c |     |                       |
+
+### Move vertically
+
+| Key        | Does what                                       | Key        | Does what               |
+|------------|-------------------------------------------------|------------|-------------------------|
+| `(`        | Move up one sentence                            | `)`        | Move down one sentence  |
+| `{`        | Move up one paragraph                           | `}`        | Move down one paragraph |
+| `ctrl + u` | Move up half a page                             | `ctrl + d` | Move down half a page   |
+| `ctrl + b` | ~Move up a page~ overriden by opening tree view | `ctrl + f` | Move down a page        |
+| `gg`       | Move to buffer start                            | `G`        | Move to end of buffer   |
+
+### Insert mode
+
+| Key | Does what                           | Key   | Does what                                   |
+|-----|-------------------------------------|-------|---------------------------------------------|
+| `i` | Insert before cursor                | `I`   | Insert at start of line (before first char) |
+| `a` | Insert after cursor                 | `A`   | Insert after end of line                    |
+| `o` | Insert new line in next line        | `O`   | Insert new line in previous line            |
+| `C` | Clear from cursor until end of line | `ciw` | change current word                         |
+| `s` | Clear symbol under cursor           | `S`   | Clear line                                  |
+
+### Copy paste
+
+| Key     | Does what                                     | Key   | Does what                                                        |
+|---------|-----------------------------------------------|-------|------------------------------------------------------------------|
+| `y<n>y` | yank n lines (if n is omitted, 1 line)        | `yw`  | yank to start of next word                                       |
+| `y^`    | yank until start of line                      | `y$`  | yank until end of line                                           |
+| `yiw`   | yank current word                             | `yi{` | yank current region enclosed by `{}`, could also be `()` or `[]` |
+| `yt<c>` | yank until next occurence of c                |       |                                                                  |
+| `d<n>d` | delete n lines (if n is omitted 1 line)       |       | remaining shortcuts are similar to yanking                       |
+| `p`     | paste *unnamed* register in line after cursor | `P`   | paste *unnamed* register in line before cursor                   |
+
+### History
+
+| Key | Does what          | Key | Does what |
+|-----|--------------------|-----|-----------|
+| `u` | undo               | `r` | redo      |
+| `.` | repeat last action |     |           |
+
+### Searching
+
+| Key | Does what                                  | Key | Does what                                       |
+|-----|--------------------------------------------|-----|-------------------------------------------------|
+| `/` | invoke incremental serch                   |     |                                                 |
+| `n` | move to next match                         | `N` | move to previous match                          |
+| `*` | search next occurence of word under cursor | `#` | search previous occurrence of word under cursor |
+
+### Bookmark
+
+| Key     | Does what                         | Key        | Does what                          |
+|---------|-----------------------------------|------------|------------------------------------|
+| `m<c>`  | bookmark position of cursor in c  | `` `<c> `` | return to position bookmarked in c |
+| `` ` `` | toggle between last two positions | `` `. ``   | return to last editing             |
 
 # General 
 
@@ -150,6 +221,11 @@ Shortcuts
 * `C-g` Grep - search for grep expression and then interactively search the results
 * `C-l` Live grep - interactively search for grep expression
 * `C-k` Keymaps
+
+## Interesting plugins to check
+
+* [`yanky`](https://github.com/gbprod/yanky.nvim) The aim of `yanky.nvim` is to improve yank and put functionalities for Neovim.
+
 
 # Resources
 
