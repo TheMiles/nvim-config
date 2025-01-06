@@ -83,12 +83,12 @@ In *insert* or *command* mode you can insert content of a register by pressing `
 
 ### Move horizontally
 
-| Key    | Does what                    | Key | Does what             |
-|--------|------------------------------|-----|-----------------------|
-| `0`    | Move to line start           | `$` | Move to line end      |
-| `^`    | Move to first non blank char | `e` | Move to end of word   |
-| `w`    | Move to next word            | `b` | Move to previous word | 
-| `F<c>` | Move to next occurrence of c |     |                       |
+| Key    | Does what                        | Key | Does what             |
+|--------|----------------------------------|-----|-----------------------|
+| `0`    | Move to line start               | `$` | Move to line end      |
+| `^`    | Move to first non blank char     | `e` | Move to end of word   |
+| `w`    | Move to next word                | `b` | Move to previous word | 
+| `F<c>` | Move to next occurrence of `<c>` |     |                       |
 
 ### Move vertically
 
@@ -102,46 +102,73 @@ In *insert* or *command* mode you can insert content of a register by pressing `
 
 ### Insert mode
 
-| Key | Does what                           | Key   | Does what                                   |
-|-----|-------------------------------------|-------|---------------------------------------------|
-| `i` | Insert before cursor                | `I`   | Insert at start of line (before first char) |
-| `a` | Insert after cursor                 | `A`   | Insert after end of line                    |
-| `o` | Insert new line in next line        | `O`   | Insert new line in previous line            |
-| `C` | Clear from cursor until end of line | `ciw` | change current word                         |
-| `s` | Clear symbol under cursor           | `S`   | Clear line                                  |
-
+| Key   | Does what                           | Key   | Does what                                   |
+|-------|-------------------------------------|-------|---------------------------------------------|
+| `i`   | Insert before cursor                | `I`   | Insert at start of line (before first char) |
+|       |                                     | `I`   | *In vertical select* multi edit             |
+| `a`   | Insert after cursor                 | `A`   | Insert after end of line                    |
+| `o`   | Insert new line in next line        | `O`   | Insert new line in previous line            |
+| `C`   | Clear from cursor until end of line | `ciw` | Change current word                         |
+| `s`   | Clear symbol under cursor           | `S`   | Clear line                                  |
+| `J`   | Join next line                      |       |                                             |
+| `r`   | Replace character under cursor      | `~`   | Change case of character under cursor       |
+| `gUw` | Change word to uppercase            | `guw` | Change word to lowercase                    |
 ### Copy paste
 
-| Key     | Does what                                     | Key   | Does what                                                        |
-|---------|-----------------------------------------------|-------|------------------------------------------------------------------|
-| `y<n>y` | yank n lines (if n is omitted, 1 line)        | `yw`  | yank to start of next word                                       |
-| `y^`    | yank until start of line                      | `y$`  | yank until end of line                                           |
-| `yiw`   | yank current word                             | `yi{` | yank current region enclosed by `{}`, could also be `()` or `[]` |
-| `yt<c>` | yank until next occurence of c                |       |                                                                  |
-| `d<n>d` | delete n lines (if n is omitted 1 line)       |       | remaining shortcuts are similar to yanking                       |
-| `p`     | paste *unnamed* register in line after cursor | `P`   | paste *unnamed* register in line before cursor                   |
+| Key         | Does what                                     | Key   | Does what                                                        |
+|-------------|-----------------------------------------------|-------|------------------------------------------------------------------|
+| `y<n>y`     | Yank `<n>` lines (if n is omitted, 1 line)    | `yw`  | Yank to start of next word                                       |
+| `y^`        | Yank until start of line                      | `y$`  | Yank until end of line                                           |
+| `yiw`       | Yank current word                             | `yi{` | Yank current region enclosed by `{}`, could also be `()` or `[]` |
+| `yt<c>`     | Yank until next occurence of `<c>`            |       |                                                                  |
+| `d<n>d`     | Delete `<n>` lines (if n is omitted 1 line)   |       | Remaining shortcuts are similar to yanking                       |
+| `p`         | Paste *unnamed* register in line after cursor | `P`   | Paste *unnamed* register in line before cursor                   |
+| `ctrl + v ` | Enter visual select mode                      |       |                                                                  |
 
 ### History
 
-| Key | Does what          | Key | Does what |
-|-----|--------------------|-----|-----------|
-| `u` | undo               | `r` | redo      |
-| `.` | repeat last action |     |           |
+| Key | Does what          | Key        | Does what |
+|-----|--------------------|------------|-----------|
+| `u` | Undo               | `ctrl + r` | Redo      |
+| `.` | Repeat last action |            |           |
 
 ### Searching
 
 | Key | Does what                                  | Key | Does what                                       |
 |-----|--------------------------------------------|-----|-------------------------------------------------|
-| `/` | invoke incremental serch                   |     |                                                 |
-| `n` | move to next match                         | `N` | move to previous match                          |
-| `*` | search next occurence of word under cursor | `#` | search previous occurrence of word under cursor |
+| `/` | Invoke incremental serch                   |     |                                                 |
+| `n` | Move to next match                         | `N` | Move to previous match                          |
+| `*` | Search next occurence of word under cursor | `#` | Search previous occurrence of word under cursor |
 
 ### Bookmark
 
+| Key     | Does what                            | Key        | Does what                              |
+|---------|--------------------------------------|------------|----------------------------------------|
+| `m<c>`  | Bookmark position of cursor in `<c>` | `` `<c> `` | Return to position bookmarked in `<c>` |
+| `` ` `` | Toggle between last two positions    | `` `. ``   | Return to last editing                 |
+
+### Coding
+
 | Key     | Does what                         | Key        | Does what                          |
 |---------|-----------------------------------|------------|------------------------------------|
-| `m<c>`  | bookmark position of cursor in c  | `` `<c> `` | return to position bookmarked in c |
-| `` ` `` | toggle between last two positions | `` `. ``   | return to last editing             |
+| `==`    | Indent current line               | `%`        | Jump to corresponding bracket      |
+
+### Macro
+
+| Key     | Does what                              | Key      | Does what                                |
+|---------|----------------------------------------|----------|------------------------------------------|
+| `q<c>`  | Record macro in *named* register `<c>` | `@<c>`   | Recall macro from *named* register `<c>` |
+
+### Commands
+
+| Key              | Does what                             | Key                | Does what                                   |
+|------------------|---------------------------------------|--------------------|---------------------------------------------|
+| `:s/<pattern>/<substitute>/` | Replace occurrence of `<pattern>` with `<substitute>` (once per line) | `:%s/<pattern>/<substitute>/` | Replace occurrences of `<pattern>` with `<substitute>` (several per line) |
+| `:g/<pattern>/d` | Delete all lines matching `<pattern>` | `:v/<pattern>/d`   | Delete all lines *not* matching `<pattern>` |
+| `:'<'> <...>`    | Apply `<...>` to current selection    |                    |                                             |
+| `:read <path>`   | Read file into current buffer         | `:read !<command>` | Read output of command in current buffer    |
+| `:sort`          | Sort lines in file                    | `:sort!`           | Sort lines in file descending               |
+
 
 # General 
 
