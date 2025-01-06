@@ -57,6 +57,7 @@ Make sure to install and enable [Nerd Fonts](https://www.nerdfonts.com/)
 * To exit *insert* or *terminal* mode, you can also use `jk`
 * `>`, `<` for indentation in *visual* mode
 * `Shift-h`, `Shift-l` to switch between buffers
+* `Ctrl-Left`, `Ctrl-Right` switch between windows (specifically treeview)
 
 ## Searching
 

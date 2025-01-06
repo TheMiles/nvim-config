@@ -49,6 +49,8 @@ nmap('<S-l>',':bnext<CR>')     -- S-l to switch to next buffer
 -----------------------------------------------------------
 
 nmap('<C-b>', ':NvimTreeToggle<CR>')  -- open/close
+nmap('<C-Left>', '<C-w><Left>') -- Move to left window
+nmap('<C-Right>', '<C-w><Right>') -- Move to right window
 
 -----------------------------------------------------------
 -- Mappings for fzf-lua 
