@@ -225,8 +225,14 @@ Making it easier to browse the available files
 
 Shortcuts
 
-```
-```
+* `g?` Show help
+* `a`  add file or directory
+* `q`  close
+* `x`  cut
+* `p`  paste
+* `<C-t>` Open in new tab
+* `<C-v>` Open in vertical split
+* `<C-x>` Open in horizontal split
 
 ### nvim-web-devicons
 
