@@ -7,10 +7,35 @@ local opt = vim.opt
 
 
 -----------------------------------------------------------
+-- Leader keys
+-----------------------------------------------------------
+
+-- need to be set before any plugin or keymap is loaded
+g.mapleader      = ' '   -- <leader> is space
+g.maplocalleader = ','   -- <localleader> for filetype specific stuff
+
+-----------------------------------------------------------
 -- General
 -----------------------------------------------------------
 
 opt.clipboard      = 'unnamedplus' -- use system clipboard
+
+-- In a ssh session there is no system clipboard on the host.
+-- Copy to the clipboard of the local terminal using OSC 52.
+-- Pasting from the terminal is usually blocked and makes nvim
+-- hang, so paste (p) uses what was yanked in nvim. Use the
+-- terminal's own paste to insert from the local clipboard.
+if vim.env.SSH_TTY and vim.fn.has('nvim-0.10') == 1 then
+  local osc52 = require('vim.ui.clipboard.osc52')
+  local function paste()
+    return { vim.fn.split(vim.fn.getreg(''), '\n'), vim.fn.getregtype('') }
+  end
+  g.clipboard = {
+    name  = 'OSC 52 (copy only)',
+    copy  = { ['+'] = osc52.copy('+'), ['*'] = osc52.copy('*') },
+    paste = { ['+'] = paste, ['*'] = paste },
+  }
+end
 
 -----------------------------------------------------------
 -- UI
@@ -70,14 +95,12 @@ opt.autoindent     = true   -- indent new line, to match current line
 -- fixing checkhealth
 -----------------------------------------------------------
 
--- for compatibility reasons /bin is linked to /usr/bin
--- thus when checking for python3 executable it shows
--- up twice. So telling neovim which one is the 
--- 'correct' one
-g.python3_host_prog = '/usr/bin/python3'
-
--- disable looking for per provider
-g.loaded_perl_provider = 0
+-- no plugin here needs the remote plugin providers,
+-- so don't look for them
+g.loaded_python3_provider = 0
+g.loaded_ruby_provider    = 0
+g.loaded_node_provider    = 0
+g.loaded_perl_provider    = 0
 
 
 -----------------------------------------------------------

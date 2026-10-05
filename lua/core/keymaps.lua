@@ -1,67 +1,66 @@
 -----------------------------------------------------------
---  Gather all the different keybindings
+--  Generic keybindings
 -----------------------------------------------------------
+--
+-- Only bindings that work without plugins live here.
+-- Bindings for a plugin are defined in its file in lua/plugins.
+--
+-- <leader> is space, groups by first letter:
+--   f  find
 
 -----------------------------------------------------------
 -- Functions to ease addition of new keybindings
 -----------------------------------------------------------
 
-local function map(mode, shortcut, command, additional_options)
-    local options = { noremap = true, silent = true }
-    if additional_options then
-        options = vim.tbl_extend('force', options, additional_options)
-    end
-    vim.api.nvim_set_keymap(mode, shortcut, command, options)
+-- desc is shown in the which-key menu and in the keymap search
+local function map(mode, shortcut, command, desc)
+    vim.keymap.set(mode, shortcut, command, { silent = true, desc = desc })
 end
 
-local function nmap(shortcut, command, additional_options)
-    map('n', shortcut, command, additional_options)
+local function nmap(shortcut, command, desc)
+    map('n', shortcut, command, desc)
 end
 
-local function imap(shortcut, command, additional_options)
-    map('i', shortcut, command, additional_options)
+local function imap(shortcut, command, desc)
+    map('i', shortcut, command, desc)
 end
 
-local function vmap(shortcut, command, additional_options)
-    map('v', shortcut, command, additional_options)
+local function vmap(shortcut, command, desc)
+    map('v', shortcut, command, desc)
 end
 
-local function tmap(shortcut, command, additional_options)
-    map('t', shortcut, command, additional_options)
+local function tmap(shortcut, command, desc)
+    map('t', shortcut, command, desc)
 end
 
 -----------------------------------------------------------
---  Generic keybindings
+--  Editing
 -----------------------------------------------------------
 
-imap('jk','<esc>') -- use jk instead of esc
-tmap('jk','<C-\\><C-n>') -- use jk to escape terminal
+imap('jk', '<esc>', 'Leave insert mode')
+tmap('jk', '<C-\\><C-n>', 'Leave terminal mode')
 
-vmap('>','>gv') -- better indentation in visual mode
-vmap('<','<gv') -- better indentation in visual mode
+vmap('>', '>gv', 'Indent and keep selection')
+vmap('<', '<gv', 'Unindent and keep selection')
 
-nmap('<S-h>',':bprevious<CR>') -- S-h to switch to prev. buffer
-nmap('<S-l>',':bnext<CR>')     -- S-l to switch to next buffer
-
+nmap('<esc>', '<cmd>nohlsearch<CR>', 'Clear search highlight')
 
 -----------------------------------------------------------
---  Mappings for nvim tree
+--  Buffers and windows
 -----------------------------------------------------------
 
-nmap('<C-b>', ':NvimTreeToggle<CR>')  -- open/close
-nmap('<C-Left>', '<C-w><Left>') -- Move to left window
-nmap('<C-Right>', '<C-w><Right>') -- Move to right window
+nmap('<S-h>', '<cmd>bprevious<CR>', 'Previous buffer')
+nmap('<S-l>', '<cmd>bnext<CR>', 'Next buffer')
+
+nmap('<C-h>', '<C-w>h', 'Window left')
+nmap('<C-j>', '<C-w>j', 'Window below')
+nmap('<C-k>', '<C-w>k', 'Window above')
+nmap('<C-l>', '<C-w>l', 'Window right')
 
 -----------------------------------------------------------
--- Mappings for fzf-lua 
+--  Help
 -----------------------------------------------------------
 
-nmap('<C-p>', ':FzfLua files<CR>') -- fzf with files
-nmap('<C-\\>', ':FzfLua buffers<CR>') -- fzf with currently open buffers 
-nmap('<C-g>', ':FzfLua grep<CR>') -- call rg
-nmap('<C-l>', ':FzfLua live_grep<CR>') -- live rg
-nmap('<C-k>', ':FzfLua keymaps<CR>') -- fzf in available keymaps
-
------------------------------------------------------------
---  
------------------------------------------------------------
+nmap('<leader>h', function()
+    vim.cmd.view(vim.fn.stdpath('config') .. '/CHEATSHEET.md')
+end, 'Cheat sheet')

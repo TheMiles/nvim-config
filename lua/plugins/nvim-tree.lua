@@ -16,6 +16,9 @@ return {
   dependencies = {
     "nvim-tree/nvim-web-devicons",
   },
+  keys = {
+    { "<C-b>", "<cmd>NvimTreeToggle<CR>", desc = "Toggle file tree" },
+  },
   config = function()
     require("nvim-tree").setup {
         renderer = {

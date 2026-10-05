@@ -1,0 +1,19 @@
+-----------------------------------------------------------
+--  Host specific settings
+-----------------------------------------------------------
+--
+-- Copy this file to lua/local.lua (not tracked by git) to
+-- switch things off on a single host.
+-- Everything not mentioned here stays enabled.
+
+return {
+  -- plugin name as shown in :Lazy
+  plugins = {
+    -- ['nvim-tree.lua'] = false,
+  },
+
+  -- file name in lua/lang without extension
+  langs = {
+    -- python = false,
+  },
+}
