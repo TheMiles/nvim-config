@@ -1,20 +1,19 @@
 # nvim-config
 
-In this repo I want to keep my neo vim config.
-It might evolve over time, let's see.
-Currently I'm just playing around. So don't expect
-anything functional here....
+In this repo I keep my neovim config. The goal is a complete IDE,
+built in stages. The plan and all decisions are in
+[docs/prd-ide.md](docs/prd-ide.md), the daily workflows in the
+[cheat sheet](CHEATSHEET.md).
 
-And right at the moment I'm moving my current setup from 
-init.vim to completely using lua. So at the beginning
-it will be a downgrade. Stuff is heavily influenced by
-[neovim configuration from brainfucksec(https://github.com/brainfucksec/neovim-lua)
+Stuff is heavily influenced by
+[neovim configuration from brainfucksec](https://github.com/brainfucksec/neovim-lua)
 
 
 # Content
 
 * [Installation](#installation)
 * [Structure](#structure)
+* [Hosts](#hosts)
 * [Keymaps](#keymaps)
 * [General](#general)
 * [Plugins](#plugins)
@@ -23,7 +22,11 @@ it will be a downgrade. Stuff is heavily influenced by
 
 # Installation
 
-Needed neovim version >=**0.8.0**
+Needed neovim version >=**0.12**. With an older version only options and
+keymaps are loaded, see [Hosts](#hosts).
+
+Clone this repo to `~/.config/nvim` and start nvim. Plugins are installed
+on first start, in the versions pinned in `lazy-lock.json`.
 
 ## Check health
 
@@ -31,145 +34,72 @@ use `:checkhealth` to get a first overview of the current status of the system.
 
 ## Packages
 
-Some specific packages should be present on the system
+Some specific packages should be present on the system. Everything
+except `git` is optional, the features needing it are skipped if it is missing.
 
 ```
-python3
-ruby
 git
-luarocks
+tree-sitter-cli (>= 0.26.1, not from npm) and a C compiler - to install syntax parsers
+fzf, ripgrep - for searching files and text
 ```
 ## Nerdfonts
 
 Make sure to install and enable [Nerd Fonts](https://www.nerdfonts.com/)
+in the terminal you are sitting at.
+
+## Clipboard over ssh
+
+In a ssh session yanked text is sent to the clipboard of the local terminal
+(OSC 52). For this to work
+
+* tmux on the host needs `set -g set-clipboard on`
+* iTerm2 needs *Settings > General > Selection > Applications in terminal may access clipboard*
+
+Pasting from the local clipboard is done with the paste of the terminal.
 
 # Structure
 
 * `init.lua` - main configuration file, used to only reference other config files
+* `CHEATSHEET.md` - how to get things done, open with `Space h`
+* `lazy-lock.json` - the plugin versions in use, kept in git so every host gets the same
+* `docs` - the plan
 * `lua` - Containing all the lua stuff
   * `core` - All main configuration files
     * `options.lua` - Config options for vim and neovim
-    * `keymaps.lua` - All keybindings, generic and specific for plugins
-    * `lazy_config.lua` - enabling of used plugins. For details see [section about plugins](#plugins)
+    * `keymaps.lua` - Keybindings that work without plugins
+    * `lazy_install.lua`, `lazy_config.lua` - The plugin manager. For details see [section about plugins](#plugins)
+    * `env.lua` - What is available on this host
+    * `lang.lua` - Collects the language files
+    * `colors.lua` - Colorscheme
+  * `plugins` - One file per plugin, with its configuration and its keybindings
+  * `lang` - One file per language, listing everything this language needs
+  * `local.lua` - Settings for a single host, not in git. See `local.lua.example`
+
+To add a language, add a file to `lua/lang`. Currently a language file
+lists the syntax parsers to install (`treesitter`) and plugins only this
+language needs (`plugins`).
+
+# Hosts
+
+The config runs on different hosts, some of them with missing tools.
+What is loaded is decided in three steps
+
+1. neovim older than 0.12 or no plugin manager (no `git`, no network):
+   only options and keymaps, builtin colorscheme
+2. Plugins written in lua only are always loaded
+3. Features needing an external tool are loaded if the tool is there,
+   otherwise they are skipped silently
+
+To switch off single plugins or languages on one host copy
+`lua/local.lua.example` to `lua/local.lua` and edit it.
 
 # Keymaps
 
-* To exit *insert* or *terminal* mode, you can also use `jk`
-* `>`, `<` for indentation in *visual* mode
-* `Shift-h`, `Shift-l` to switch between buffers
-* `Ctrl-Left`, `Ctrl-Right` switch between windows (specifically treeview)
+`<leader>` is `Space`, `<localleader>` is `,`. After pressing `Space` a menu
+shows the available keys. They are grouped by their first letter, for
+now there is `f` for find.
 
-## Searching
-
-* `/` invoke incremental search
-* `n` move to next match
-* `N` move to previous match
-* `C-p` fzf a file
-* `C-\` fzf open buffers
-* `C-l` do a live grep (using rg)
-* `C-k` search available keymaps
-
-## Insert register
-
-In *insert* or *command* mode you can insert content of a register by pressing `C-r <register_name>` where [register_name](#registers) is the according key. 
-
-## Cheat sheet
-
-### Move cursor
-
-| Key | Does what | Key | Does what  |
-|-----|-----------|-----|------------|
-| `h` | Move left | `l` | Move right |
-| `j` | Move down | `k` | Move up    |
-
-### Move horizontally
-
-| Key    | Does what                        | Key | Does what             |
-|--------|----------------------------------|-----|-----------------------|
-| `0`    | Move to line start               | `$` | Move to line end      |
-| `^`    | Move to first non blank char     | `e` | Move to end of word   |
-| `w`    | Move to next word                | `b` | Move to previous word | 
-| `F<c>` | Move to next occurrence of `<c>` |     |                       |
-
-### Move vertically
-
-| Key        | Does what                                       | Key        | Does what               |
-|------------|-------------------------------------------------|------------|-------------------------|
-| `(`        | Move up one sentence                            | `)`        | Move down one sentence  |
-| `{`        | Move up one paragraph                           | `}`        | Move down one paragraph |
-| `ctrl + u` | Move up half a page                             | `ctrl + d` | Move down half a page   |
-| `ctrl + b` | ~Move up a page~ overriden by opening tree view | `ctrl + f` | Move down a page        |
-| `gg`       | Move to buffer start                            | `G`        | Move to end of buffer   |
-
-### Insert mode
-
-| Key   | Does what                           | Key   | Does what                                   |
-|-------|-------------------------------------|-------|---------------------------------------------|
-| `i`   | Insert before cursor                | `I`   | Insert at start of line (before first char) |
-|       |                                     | `I`   | *In vertical select* multi edit             |
-| `a`   | Insert after cursor                 | `A`   | Insert after end of line                    |
-| `o`   | Insert new line in next line        | `O`   | Insert new line in previous line            |
-| `C`   | Clear from cursor until end of line | `ciw` | Change current word                         |
-| `s`   | Clear symbol under cursor           | `S`   | Clear line                                  |
-| `J`   | Join next line                      |       |                                             |
-| `r`   | Replace character under cursor      | `~`   | Change case of character under cursor       |
-| `gUw` | Change word to uppercase            | `guw` | Change word to lowercase                    |
-### Copy paste
-
-| Key         | Does what                                     | Key   | Does what                                                        |
-|-------------|-----------------------------------------------|-------|------------------------------------------------------------------|
-| `y<n>y`     | Yank `<n>` lines (if n is omitted, 1 line)    | `yw`  | Yank to start of next word                                       |
-| `y^`        | Yank until start of line                      | `y$`  | Yank until end of line                                           |
-| `yiw`       | Yank current word                             | `yi{` | Yank current region enclosed by `{}`, could also be `()` or `[]` |
-| `yt<c>`     | Yank until next occurence of `<c>`            |       |                                                                  |
-| `d<n>d`     | Delete `<n>` lines (if n is omitted 1 line)   |       | Remaining shortcuts are similar to yanking                       |
-| `p`         | Paste *unnamed* register in line after cursor | `P`   | Paste *unnamed* register in line before cursor                   |
-| `ctrl + v ` | Enter visual select mode                      |       |                                                                  |
-
-### History
-
-| Key | Does what          | Key        | Does what |
-|-----|--------------------|------------|-----------|
-| `u` | Undo               | `ctrl + r` | Redo      |
-| `.` | Repeat last action |            |           |
-
-### Searching
-
-| Key | Does what                                  | Key | Does what                                       |
-|-----|--------------------------------------------|-----|-------------------------------------------------|
-| `/` | Invoke incremental serch                   |     |                                                 |
-| `n` | Move to next match                         | `N` | Move to previous match                          |
-| `*` | Search next occurence of word under cursor | `#` | Search previous occurrence of word under cursor |
-
-### Bookmark
-
-| Key     | Does what                            | Key        | Does what                              |
-|---------|--------------------------------------|------------|----------------------------------------|
-| `m<c>`  | Bookmark position of cursor in `<c>` | `` `<c> `` | Return to position bookmarked in `<c>` |
-| `` ` `` | Toggle between last two positions    | `` `. ``   | Return to last editing                 |
-
-### Coding
-
-| Key     | Does what                         | Key        | Does what                          |
-|---------|-----------------------------------|------------|------------------------------------|
-| `==`    | Indent current line               | `%`        | Jump to corresponding bracket      |
-
-### Macro
-
-| Key     | Does what                              | Key      | Does what                                |
-|---------|----------------------------------------|----------|------------------------------------------|
-| `q<c>`  | Record macro in *named* register `<c>` | `@<c>`   | Recall macro from *named* register `<c>` |
-
-### Commands
-
-| Key              | Does what                             | Key                | Does what                                   |
-|------------------|---------------------------------------|--------------------|---------------------------------------------|
-| `:s/<pattern>/<substitute>/` | Replace occurrence of `<pattern>` with `<substitute>` (once per line) | `:%s/<pattern>/<substitute>/` | Replace occurrences of `<pattern>` with `<substitute>` (several per line) |
-| `:g/<pattern>/d` | Delete all lines matching `<pattern>` | `:v/<pattern>/d`   | Delete all lines *not* matching `<pattern>` |
-| `:'<'> <...>`    | Apply `<...>` to current selection    |                    |                                             |
-| `:read <path>`   | Read file into current buffer         | `:read !<command>` | Read output of command in current buffer    |
-| `:sort`          | Sort lines in file                    | `:sort!`           | Sort lines in file descending               |
-
+All workflows and keys are listed in the [cheat sheet](CHEATSHEET.md).
 
 # General 
 
@@ -203,9 +133,8 @@ For handling plugins the [lazy plugin manager](https://github.com/folke/lazy.nvi
 The basic setup should happen automatically.
 
 The overall configuration is handled in `lua/core/lazy_config.lua`.
-Here you cna enable plugins by adding them to a list.
-If you need specific configuration for a plugin, you can also
-create a file in `lua/plugins/...`.
+To add a plugin create a file in `lua/plugins/...` containing
+its configuration and its keybindings.
 
 * `:Lazy health` equal to `:checkhealth lazy` get details about any problems with the packager.
 * `:Lazy` show lazy panel
@@ -225,6 +154,7 @@ Making it easier to browse the available files
 
 Shortcuts
 
+* `C-b` open/close the tree
 * `g?` Show help
 * `a`  add file or directory
 * `q`  close
@@ -238,10 +168,6 @@ Shortcuts
 
 [`nvim-web-devicons`](https://github.com/nvim-tree/nvim-web-devicons) adds filetype glyphs and colors.
 
-### feline
-
-[`feline`](https://github.com/feline-nvim/feline.nvim) a minimal, stylish and customizable statusline
-
 ### fzf-lua
 
 [`fzf-lua`](https://github.com/ibhagwan/fzf-lua) lua implementation for using fzf
@@ -250,11 +176,23 @@ Some [general introduction about fzf on YT](https://www.youtube.com/watch?v=qgG5
 
 Shortcuts
 
-* `C-p` Search for files
-* `C-\` Search for buffers
-* `C-g` Grep - search for grep expression and then interactively search the results
-* `C-l` Live grep - interactively search for grep expression
-* `C-k` Keymaps
+* `C-p`, `Space f f` Search for files
+* `Space f b` Search for buffers
+* `Space f G` Grep - search for grep expression and then interactively search the results
+* `Space f g` Live grep - interactively search for grep expression
+* `Space f k` Keymaps
+
+### nvim-treesitter
+
+[`nvim-treesitter`](https://github.com/nvim-treesitter/nvim-treesitter) installs syntax parsers,
+used for highlighting and indentation. The parsers are listed per language in `lua/lang`.
+
+* `:TSUpdate` update the installed parsers
+* `:checkhealth nvim-treesitter` which parsers are installed
+
+### which-key
+
+[`which-key`](https://github.com/folke/which-key.nvim) shows the available keybindings while typing them.
 
 ## Interesting plugins to check
 
