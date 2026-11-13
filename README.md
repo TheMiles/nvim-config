@@ -14,6 +14,7 @@ Stuff is heavily influenced by
 * [Installation](#installation)
 * [Structure](#structure)
 * [Hosts](#hosts)
+* [Tests](#tests)
 * [Keymaps](#keymaps)
 * [General](#general)
 * [Plugins](#plugins)
@@ -63,6 +64,7 @@ Pasting from the local clipboard is done with the paste of the terminal.
 * `CHEATSHEET.md` - how to get things done, open with `Space h`
 * `lazy-lock.json` - the plugin versions in use, kept in git so every host gets the same
 * `docs` - the plan
+* `tests` - startup tests, see [Tests](#tests)
 * `lua` - Containing all the lua stuff
   * `core` - All main configuration files
     * `options.lua` - Config options for vim and neovim
@@ -92,6 +94,20 @@ What is loaded is decided in three steps
 
 To switch off single plugins or languages on one host copy
 `lua/local.lua.example` to `lua/local.lua` and edit it.
+
+# Tests
+
+`tests/run.sh` starts nvim headless against a copy of this config and
+checks what a user would see: exit code, messages, keymaps, loaded
+plugins, highlighting. Different hosts are simulated by changing the
+environment (old neovim, no `git`, no `tree-sitter`, ssh, `local.lua`).
+The installed plugins are used, so start nvim once before.
+
+```sh
+tests/run.sh
+```
+
+Run it after every change to the config.
 
 # Keymaps
 
