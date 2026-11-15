@@ -6,6 +6,13 @@ for _, file in ipairs({ 'main.c', 'init.lua', 'app.py' }) do
   vim.wait(1500, function()
     return #vim.lsp.get_clients({ bufnr = buf }) > 0
   end, 50)
+  -- a second server of the same file may still be starting
+  local count = #vim.lsp.get_clients({ bufnr = buf })
+  if count > 0 then
+    vim.wait(500, function()
+      return #vim.lsp.get_clients({ bufnr = buf }) > count
+    end, 50)
+  end
   local names = vim.tbl_map(function(c)
     return c.name
   end, vim.lsp.get_clients({ bufnr = buf }))

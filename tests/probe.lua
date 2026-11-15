@@ -58,7 +58,7 @@ local function check()
     { 'i', 'jk' }, { 'n', '<C-p>' }, { 'n', '<C-b>' },
     { 'n', '<leader>ff' }, { 'n', '<leader>fg' }, { 'n', '<leader>fG' },
     { 'n', '<leader>fb' }, { 'n', '<leader>fk' },
-    { 'n', '<leader>cd' },
+    { 'n', '<leader>cd' }, { 'n', '<leader>cf' }, { 'n', '<leader>uf' },
   }
   for _, m in ipairs(maps) do
     local d = vim.fn.maparg(m[2], m[1], false, true)

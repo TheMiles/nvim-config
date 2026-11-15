@@ -8,7 +8,7 @@
 
 local M = {}
 
-local overrides = { plugins = {}, langs = {} }
+local overrides = { plugins = {}, langs = {}, format_on_save = true }
 
 local path = vim.fn.stdpath('config') .. '/lua/local.lua'
 if vim.uv.fs_stat(path) then
@@ -19,6 +19,9 @@ if vim.uv.fs_stat(path) then
     vim.notify('lua/local.lua ignored: ' .. tostring(result), vim.log.levels.WARN)
   end
 end
+
+-- format files on save (only in projects that configure the formatter)
+M.format_on_save = overrides.format_on_save ~= false
 
 -- true when running inside a ssh session
 M.ssh = vim.env.SSH_TTY ~= nil

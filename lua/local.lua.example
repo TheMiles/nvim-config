@@ -16,4 +16,7 @@ return {
   langs = {
     -- python = false,
   },
+
+  -- format on save in projects that configure a formatter
+  -- format_on_save = false,
 }

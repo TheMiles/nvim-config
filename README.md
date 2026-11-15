@@ -102,6 +102,9 @@ What is loaded is decided in three steps
 To switch off single plugins or languages on one host copy
 `lua/local.lua.example` to `lua/local.lua` and edit it.
 
+`local.lua` can also switch off format on save for a host
+(`format_on_save = false`); `Space u f` toggles it for the session.
+
 # Tests
 
 `tests/run.sh` starts nvim headless against a copy of this config and

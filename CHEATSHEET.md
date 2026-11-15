@@ -4,7 +4,7 @@ How to get things done with this config. Open it in nvim with `Space h`.
 
 `<leader>` is `Space`. Press it and wait: a menu shows what comes next.
 
-State: stage 1 of 6 (foundation). Sections marked *later* list what the
+State: stage 2 of 6 (code intelligence). Sections marked *later* list what the
 coming stages add, see [docs/prd-ide.md](docs/prd-ide.md).
 
 ## Find things
@@ -119,9 +119,15 @@ Needs the language server of the language, see `:LangInstall`.
 | Next / previous completion         | `Ctrl-n` / `Ctrl-p`   |
 | Close the completion menu          | `Ctrl-e`              |
 | Jump to the next snippet field     | `Tab`                 |
+| Format the buffer                  | `Space c f`           |
+| Format on save on / off            | `Space u f`           |
 
 The full diagnostic message shows below the cursor line only; other lines
 show a sign and an underline.
+
+Saving formats a file only when its project configures the formatter
+(`.stylua.toml`, `.clang-format`, `ruff.toml` or `[tool.ruff]` in
+`pyproject.toml`). `Space c f` formats anyway.
 
 ## Commands
 
@@ -142,7 +148,6 @@ show a sign and an underline.
 
 | Stage | Adds                                                        | Keys start with |
 |-------|-------------------------------------------------------------|-----------------|
-| 2     | Go to definition, rename, completion, formatting, diagnostics | `Space c`, `Space x` |
 | 3     | Statusline, buffer tabs, terminal, multi cursor, command palette | `Space b`, `Ctrl-\`, `Ctrl-n` |
 | 4     | Git signs, lazygit, diff view                               | `Space g`       |
 | 5     | Build and run, debugger, tests                              | `Space r`, `Space d`, `Space t` |

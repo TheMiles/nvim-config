@@ -1,6 +1,6 @@
 # PRD: Neovim as a complete IDE
 
-Status: stage 1 in progress · Decided 2026-10-05
+Status: stage 2 in progress · Decided 2026-10-05
 
 ## Architecture Overview
 

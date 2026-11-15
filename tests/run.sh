@@ -47,6 +47,19 @@ fresh_project() {
   mkdir -p "$tmp/project/.git"
 }
 
+format_project() {
+  fresh_project
+  local p="$tmp/project"
+  mkdir -p "$p/with-config" "$p/without-config" "$p/ruff-project" "$p/other-project"
+  touch "$p/with-config/.stylua.toml"
+  printf '[tool.ruff]\nline-length = 100\n' >"$p/ruff-project/pyproject.toml"
+  printf '[project]\nname = "x"\n' >"$p/other-project/pyproject.toml"
+  for f in with-config/a.lua with-config/c.lua without-config/a.lua without-config/b.lua \
+           ruff-project/a.py other-project/a.py; do
+    echo "x = 1" >"$p/$f"
+  done
+}
+
 # PATH with git and a C compiler, but without tree-sitter
 mkdir -p "$tmp/bin-no-ts"
 for tool in git cc gcc clang; do
@@ -65,6 +78,14 @@ EOF
 chmod +x "$tmp/bin-fake-lsp/fake-lsp"
 for server in clangd lua-language-server basedpyright-langserver ruff; do
   ln -s fake-lsp "$tmp/bin-fake-lsp/$server"
+done
+# PATH with fake formatters (and git, cc): they prepend a line
+mkdir -p "$tmp/bin-fake-fmt"
+# (absolute path: the scenarios' PATH has no cat)
+printf '#!/bin/sh\necho "-- formatted"\nexec /bin/cat\n' >"$tmp/bin-fake-fmt/fake-fmt"
+chmod +x "$tmp/bin-fake-fmt/fake-fmt"
+for formatter in stylua ruff clang-format; do
+  ln -s fake-fmt "$tmp/bin-fake-fmt/$formatter"
 done
 
 failed=0
@@ -248,6 +269,50 @@ expect_line "insert <Tab>=mapped"
 expect_line "insert <CR>=no"
 expect_line "completion sources=lsp,path,snippets,buffer"
 expect_line "lsp completion capabilities=true"
+
+#-----------------------------------------------------------
+section "format on save"
+#-----------------------------------------------------------
+# the fake ruff is no language server, so switch off the servers
+format_project
+echo "return { plugins = { ['nvim-lspconfig'] = false } }" >"$cfg/lua/local.lua"
+run PATH="$tmp/bin-fake-fmt:$tmp/bin-no-ts" PROBE_PROJECT="$tmp/project" \
+  PROBE_EXTRA="$repo/tests/extra/format.lua"
+rm -f "$cfg/lua/local.lua"
+expect_exit_0
+expect_messages 1 "Format on save: off"
+expect_line "save with config=-- formatted"
+expect_line "save without config=x = 1"
+expect_line "save pyproject with ruff=-- formatted"
+expect_line "save pyproject without ruff=x = 1"
+expect_line "manual format=-- formatted"
+expect_line "save after toggle=x = 1"
+expect_line "map n <leader>cf=desc"
+expect_line "map n <leader>uf=desc"
+
+#-----------------------------------------------------------
+section "format on save off in local.lua"
+#-----------------------------------------------------------
+format_project
+echo "return { format_on_save = false, plugins = { ['nvim-lspconfig'] = false } }" >"$cfg/lua/local.lua"
+run PATH="$tmp/bin-fake-fmt:$tmp/bin-no-ts" PROBE_PROJECT="$tmp/project" \
+  PROBE_EXTRA="$repo/tests/extra/format.lua"
+rm -f "$cfg/lua/local.lua"
+expect_exit_0
+expect_line "save with config=x = 1"
+expect_line "manual format=-- formatted"
+expect_line "save after toggle=-- formatted"
+
+#-----------------------------------------------------------
+section "formatter missing"
+#-----------------------------------------------------------
+# the manual key may report a missing formatter, so messages are not checked
+format_project
+run PATH="$tmp/bin-no-ts" PROBE_PROJECT="$tmp/project" \
+  PROBE_EXTRA="$repo/tests/extra/format.lua"
+expect_exit_0
+expect_line "save with config=x = 1"
+expect_line "save pyproject with ruff=x = 1"
 
 #-----------------------------------------------------------
 section "local.lua switches off a plugin and a language"
