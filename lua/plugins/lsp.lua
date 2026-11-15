@@ -12,7 +12,10 @@
 return {
   'neovim/nvim-lspconfig',
   lazy = false, -- servers must be enabled before the first file opens
-  dependencies = { 'mason-org/mason.nvim' }, -- puts installed servers on PATH
+  dependencies = {
+    'mason-org/mason.nvim', -- puts installed servers on PATH
+    'saghen/blink.cmp',     -- completion capabilities for the servers
+  },
   config = function()
     local env = require('core.env')
 

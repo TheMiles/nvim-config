@@ -239,6 +239,17 @@ expect_line "lsp init.lua=lua_ls"
 rm -f "$cfg/lua/local.lua"
 
 #-----------------------------------------------------------
+section "completion"
+#-----------------------------------------------------------
+run PROBE_EXTRA="$repo/tests/extra/completion.lua"
+expect_exit_0
+expect_messages 0
+expect_line "insert <Tab>=mapped"
+expect_line "insert <CR>=no"
+expect_line "completion sources=lsp,path,snippets,buffer"
+expect_line "lsp completion capabilities=true"
+
+#-----------------------------------------------------------
 section "local.lua switches off a plugin and a language"
 #-----------------------------------------------------------
 cat >"$cfg/lua/local.lua" <<'EOF'

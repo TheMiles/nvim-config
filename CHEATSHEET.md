@@ -115,6 +115,10 @@ Needs the language server of the language, see `:LangInstall`.
 | Fix or refactor (code action)      | `Space c a`           |
 | Show the diagnostics of the line   | `Space c d`           |
 | Next / previous diagnostic         | `]d` / `[d`           |
+| Accept a completion                | `Tab`                 |
+| Next / previous completion         | `Ctrl-n` / `Ctrl-p`   |
+| Close the completion menu          | `Ctrl-e`              |
+| Jump to the next snippet field     | `Tab`                 |
 
 The full diagnostic message shows below the cursor line only; other lines
 show a sign and an underline.
