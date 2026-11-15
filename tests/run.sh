@@ -124,6 +124,12 @@ for ft in lua c cpp python; do
 done
 expect_line "highlight zzz_unknown=off"
 expect_line "clipboard=none"
+expect_line "servers=clangd,lua_ls,basedpyright,ruff"
+expect_line "mason=clangd,clang-format,lua-language-server,stylua,basedpyright,ruff"
+expect_line "formatter c=clang-format"
+expect_line "formatter cpp=clang-format"
+expect_line "formatter lua=stylua"
+expect_line "formatter python=ruff_format"
 for p in python3 ruby node perl; do
   expect_line "provider $p=0"
 done
@@ -208,7 +214,12 @@ rm -f "$cfg/lua/local.lua"
 section "language files"
 #-----------------------------------------------------------
 # without tree-sitter, so the made up parser is not installed
-echo "return { treesitter = { 'zz_probe', 'lua', 'c' } }" >"$cfg/lua/lang/zz_new.lua"
+cat >"$cfg/lua/lang/zz_new.lua" <<'EOF'
+return {
+  treesitter = { 'zz_probe', 'lua', 'c' },
+  formatters = { zz_ft = { 'zz_fmt' }, lua = { 'zz_other' } },
+}
+EOF
 echo "return { treesitter = {" >"$cfg/lua/lang/zz_broken.lua"
 run PATH="$tmp/bin-no-ts"
 expect_exit_0
@@ -218,6 +229,9 @@ if tr ',' '\n' <<<"$parsers" | grep -qx zz_probe; then ok; else fail "new parser
 if tr ',' '\n' <<<"$parsers" | grep -qx python; then ok; else fail "other languages missing: $parsers"; fi
 dups=$(tr ',' '\n' <<<"$parsers" | sort | uniq -d)
 if [ -z "$dups" ]; then ok; else fail "duplicate parsers: $dups"; fi
+expect_line "formatter zz_ft=zz_fmt"
+# lua.lua sorts before zz_new.lua, so its entry wins
+expect_line "formatter lua=stylua"
 rm -f "$cfg/lua/lang/zz_new.lua" "$cfg/lua/lang/zz_broken.lua"
 
 #-----------------------------------------------------------

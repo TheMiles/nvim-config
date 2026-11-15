@@ -5,8 +5,14 @@
 -- Every file in lua/lang describes one language, e.g.
 --
 --   return {
---     treesitter = { 'python' },   -- parsers to install
---     plugins    = { ... },        -- lazy.nvim specs only this language needs
+--     treesitter = { 'python' },                -- parsers to install
+--     servers    = { 'basedpyright', 'ruff' },  -- names as in nvim-lspconfig
+--     mason      = { 'basedpyright', 'ruff' },  -- packages for :LangInstall
+--     formatters = { python = { 'ruff_format' } },  -- by filetype, see conform.nvim
+--     -- files that show a project wants a formatter, a name or
+--     -- { name, text } when the file must contain text
+--     format_config = { ruff_format = { 'ruff.toml', { 'pyproject.toml', '[tool.ruff' } } },
+--     plugins    = { ... },                     -- lazy.nvim specs only this language needs
 --   }
 --
 -- To add a language, add a file there. Plugins ask this module
@@ -44,6 +50,23 @@ function M.collect(field)
       if not seen[entry] then
         seen[entry] = true
         result[#result + 1] = entry
+      end
+    end
+  end
+  return result
+end
+
+-- a field that maps keys to values, merged over all enabled languages.
+-- If two languages set the same key, the first one by file name wins.
+function M.collect_map(field)
+  if not langs then
+    load()
+  end
+  local result = {}
+  for _, name in ipairs(vim.fn.sort(vim.tbl_keys(langs))) do
+    for key, value in pairs(langs[name][field] or {}) do
+      if result[key] == nil then
+        result[key] = value
       end
     end
   end

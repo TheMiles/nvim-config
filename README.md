@@ -77,9 +77,12 @@ Pasting from the local clipboard is done with the paste of the terminal.
   * `lang` - One file per language, listing everything this language needs
   * `local.lua` - Settings for a single host, not in git. See `local.lua.example`
 
-To add a language, add a file to `lua/lang`. Currently a language file
-lists the syntax parsers to install (`treesitter`) and plugins only this
-language needs (`plugins`).
+To add a language, add a file to `lua/lang`. A language file lists the
+syntax parsers (`treesitter`), language servers (`servers`, names as in
+nvim-lspconfig), packages for `:LangInstall` (`mason`), formatters by
+filetype (`formatters`), the files that show a project wants a formatter
+(`format_config`) and plugins only this language needs (`plugins`).
+See the comment in `lua/core/lang.lua`.
 
 # Hosts
 
