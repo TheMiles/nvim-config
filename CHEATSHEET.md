@@ -102,6 +102,23 @@ in stage 3). These work everywhere:
 | Delete all lines matching / not matching | `:g/pattern/d` / `:v/pattern/d`       |
 | Record and replay a macro               | `q<c>` ... `q`, then `@<c>`            |
 
+## Code
+
+Needs the language server of the language, see `:LangInstall`.
+
+| I want to                          | Keys                  |
+|------------------------------------|-----------------------|
+| Go to the definition               | `gd`, back with `Ctrl-o` |
+| Show the documentation             | `K`                   |
+| List the references                | `grr`                 |
+| Rename the symbol                  | `Space c r`           |
+| Fix or refactor (code action)      | `Space c a`           |
+| Show the diagnostics of the line   | `Space c d`           |
+| Next / previous diagnostic         | `]d` / `[d`           |
+
+The full diagnostic message shows below the cursor line only; other lines
+show a sign and an underline.
+
 ## Commands
 
 | Command              | Does what                              |
@@ -113,6 +130,9 @@ in stage 3). These work everywhere:
 | `:Lazy sync`         | Install, clean and update plugins      |
 | `:TSUpdate`          | Update the syntax parsers              |
 | `:checkhealth`       | Is everything set up on this host      |
+| `:LangInstall`       | Install servers and formatters of all languages |
+| `:Mason`             | Installed servers and tools            |
+| `:checkhealth vim.lsp` | Which servers run for this buffer    |
 
 ## Later
 

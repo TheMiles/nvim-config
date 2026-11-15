@@ -48,6 +48,22 @@ opt.cursorline     = false  -- highlight line with cursor
 opt.termguicolors  = true   -- enable 24 bit RGB color (needed for nvim-tree) 
 
 -----------------------------------------------------------
+-- Diagnostics (from language servers)
+-----------------------------------------------------------
+
+-- the full message only on the cursor line, other lines
+-- show the sign and an underline
+if vim.fn.has('nvim-0.11') == 1 then
+  vim.diagnostic.config({
+    virtual_text  = false,
+    virtual_lines = { current_line = true },
+    underline     = true,
+    signs         = true,
+    severity_sort = true,
+  })
+end
+
+-----------------------------------------------------------
 -- Behaviour
 -----------------------------------------------------------
 

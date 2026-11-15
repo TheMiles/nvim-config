@@ -56,6 +56,16 @@ for tool in git cc gcc clang; do
 done
 # PATH without anything
 mkdir -p "$tmp/bin-empty"
+# PATH with fake language servers (and git, cc)
+mkdir -p "$tmp/bin-fake-lsp"
+cat >"$tmp/bin-fake-lsp/fake-lsp" <<EOF
+#!/bin/sh
+exec "$nvim_bin" -l "$repo/tests/fake-lsp.lua"
+EOF
+chmod +x "$tmp/bin-fake-lsp/fake-lsp"
+for server in clangd lua-language-server basedpyright-langserver ruff; do
+  ln -s fake-lsp "$tmp/bin-fake-lsp/$server"
+done
 
 failed=0
 passed=0
@@ -184,6 +194,49 @@ run PROBE_EXTRA="$tmp/extra-data.lua"
 expect_exit_0
 expect_line "data=$tmp/data/nvim"
 expect_line "lazy_loaded=true"
+
+#-----------------------------------------------------------
+section "language servers present"
+#-----------------------------------------------------------
+fresh_project
+touch "$tmp/project/main.c" "$tmp/project/init.lua" "$tmp/project/app.py"
+run PATH="$tmp/bin-fake-lsp:$tmp/bin-no-ts" PROBE_PROJECT="$tmp/project" \
+  PROBE_EXTRA="$repo/tests/extra/lsp.lua"
+expect_exit_0
+expect_messages 0
+expect_line "lsp main.c=clangd"
+expect_line "lsp init.lua=lua_ls"
+expect_line "lsp app.py=basedpyright,ruff"
+expect_line "lsp map gd=buffer"
+expect_line "lsp map <leader>ca=buffer"
+expect_line "lsp map <leader>cr=buffer"
+expect_line "map n <leader>cd=desc"
+expect_line "diag virtual_lines.current_line=true"
+expect_line "diag virtual_text=false"
+expect_line "diag underline=true"
+expect_line "diag signs=true"
+
+#-----------------------------------------------------------
+section "language servers missing"
+#-----------------------------------------------------------
+run PATH="$tmp/bin-no-ts" PROBE_PROJECT="$tmp/project" \
+  PROBE_EXTRA="$repo/tests/extra/lsp.lua"
+expect_exit_0
+expect_messages 0
+expect_line "lsp main.c=none"
+expect_line "lsp init.lua=none"
+expect_line "lsp app.py=none"
+
+#-----------------------------------------------------------
+section "local.lua switches off cpp"
+#-----------------------------------------------------------
+echo "return { langs = { cpp = false } }" >"$cfg/lua/local.lua"
+run PATH="$tmp/bin-fake-lsp:$tmp/bin-no-ts" PROBE_PROJECT="$tmp/project" \
+  PROBE_EXTRA="$repo/tests/extra/lsp.lua"
+expect_exit_0
+expect_line "lsp main.c=none"
+expect_line "lsp init.lua=lua_ls"
+rm -f "$cfg/lua/local.lua"
 
 #-----------------------------------------------------------
 section "local.lua switches off a plugin and a language"

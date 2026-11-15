@@ -29,6 +29,10 @@ keymaps are loaded, see [Hosts](#hosts).
 Clone this repo to `~/.config/nvim` and start nvim. Plugins are installed
 on first start, in the versions pinned in `lazy-lock.json`.
 
+Language servers and formatters are installed per user with
+`:LangInstall` (needs network, and `npm` / `python3` for some of them).
+A language whose server is missing still gets highlighting.
+
 ## Check health
 
 use `:checkhealth` to get a first overview of the current status of the system.

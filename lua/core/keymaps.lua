@@ -7,6 +7,8 @@
 --
 -- <leader> is space, groups by first letter:
 --   f  find
+--   c  code
+--   u  toggles
 
 -----------------------------------------------------------
 -- Functions to ease addition of new keybindings
@@ -56,6 +58,12 @@ nmap('<C-h>', '<C-w>h', 'Window left')
 nmap('<C-j>', '<C-w>j', 'Window below')
 nmap('<C-k>', '<C-w>k', 'Window above')
 nmap('<C-l>', '<C-w>l', 'Window right')
+
+-----------------------------------------------------------
+--  Code
+-----------------------------------------------------------
+
+nmap('<leader>cd', vim.diagnostic.open_float, 'Line diagnostics')
 
 -----------------------------------------------------------
 --  Help
