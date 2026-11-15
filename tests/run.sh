@@ -9,8 +9,8 @@
 # Hosts are simulated by changing the environment (PATH, data
 # directory, SSH_TTY), never by changing the config.
 #
-# The copy keeps the real data directory, so the installed plugins
-# are used. Run nvim once normally before running the tests.
+# Plugins and parsers come from the real data directory (symlinked),
+# mason packages do not. Run nvim once normally before running the tests.
 #
 # usage: tests/run.sh            run all tests
 #        NVIM=/path/to/nvim tests/run.sh
@@ -30,6 +30,23 @@ cp -R "$repo" "$tmp/config/nvim"
 rm -rf "$tmp/config/nvim/.git" "$tmp/config/nvim/lua/local.lua"
 cfg="$tmp/config/nvim"
 
+# data copy: plugins and parsers are shared with the real data
+# directory, mason is not, so tools installed on this host
+# can't hide a missing tool
+real_data=$("$nvim_bin" --clean --headless \
+  -c 'lua io.stdout:write(vim.fn.stdpath("data"))' -c 'qa!')
+mkdir -p "$tmp/data/nvim"
+for dir in lazy site; do
+  [ -e "$real_data/$dir" ] && ln -s "$real_data/$dir" "$tmp/data/nvim/$dir"
+done
+
+# files a scenario opens
+mkdir -p "$tmp/project"
+fresh_project() {
+  rm -rf "$tmp/project"
+  mkdir -p "$tmp/project/.git"
+}
+
 # PATH with git and a C compiler, but without tree-sitter
 mkdir -p "$tmp/bin-no-ts"
 for tool in git cc gcc clang; do
@@ -47,7 +64,7 @@ status=
 
 # start nvim, extra environment as arguments: run VAR=value ...
 run() {
-  output=$(env XDG_CONFIG_HOME="$tmp/config" "$@" \
+  output=$(env XDG_CONFIG_HOME="$tmp/config" XDG_DATA_HOME="$tmp/data" "$@" \
     "$nvim_bin" --headless --cmd "luafile $probe" 2>"$tmp/stderr")
   status=$?
 }
@@ -150,6 +167,17 @@ run SSH_TTY=/dev/null
 expect_exit_0
 expect_line "clipboard=OSC 52 (copy only)"
 expect_line "paste=probe"
+
+#-----------------------------------------------------------
+section "isolated data directory"
+#-----------------------------------------------------------
+cat >"$tmp/extra-data.lua" <<'EOF'
+probe_put('data', vim.fn.stdpath('data'))
+EOF
+run PROBE_EXTRA="$tmp/extra-data.lua"
+expect_exit_0
+expect_line "data=$tmp/data/nvim"
+expect_line "lazy_loaded=true"
 
 #-----------------------------------------------------------
 section "local.lua switches off a plugin and a language"

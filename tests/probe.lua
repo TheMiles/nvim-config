@@ -9,6 +9,7 @@
 -- Environment:
 --   PROBE_FT      comma separated filetypes to open, reports highlighting
 --   PROBE_OLD_NVIM  if set, pretend neovim is older than 0.12
+--   PROBE_EXTRA   lua file run after startup, reports with probe_put(key, value)
 
 if vim.env.PROBE_OLD_NVIM then
   local has = vim.fn.has
@@ -79,7 +80,18 @@ local function check()
   end
 
   if package.loaded['core.lang'] then
-    put('parsers', table.concat(require('core.lang').collect('treesitter'), ','))
+    local lang = require('core.lang')
+    put('parsers', table.concat(lang.collect('treesitter'), ','))
+    put('servers', table.concat(lang.collect('servers'), ','))
+    put('mason', table.concat(lang.collect('mason'), ','))
+    if lang.collect_map then
+      local formatters = lang.collect_map('formatters')
+      local fts = vim.tbl_keys(formatters)
+      table.sort(fts)
+      for _, ft in ipairs(fts) do
+        put('formatter ' .. ft, table.concat(formatters[ft], ','))
+      end
+    end
   end
 
   if package.loaded['lazy'] then
@@ -99,6 +111,14 @@ local function check()
     end)
     local state = vim.treesitter.highlighter.active[buf] and 'on' or 'off'
     put('highlight ' .. ft, ok and state or 'error')
+  end
+
+  if vim.env.PROBE_EXTRA then
+    _G.probe_put = put
+    local ok, err = pcall(dofile, vim.env.PROBE_EXTRA)
+    if not ok then
+      put('extra_error', err)
+    end
   end
 
   -- messages shown to the user during startup, one per line
