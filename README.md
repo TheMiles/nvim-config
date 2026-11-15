@@ -104,6 +104,8 @@ To switch off single plugins or languages on one host copy
 
 `local.lua` can also switch off format on save for a host
 (`format_on_save = false`); `Space u f` toggles it for the session.
+On a host without network set `offline = true` there, so plugins
+don't try to download anything at startup.
 
 # Tests
 

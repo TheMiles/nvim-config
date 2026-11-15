@@ -285,6 +285,7 @@ expect_line "save with config=-- formatted"
 expect_line "save without config=x = 1"
 expect_line "save pyproject with ruff=-- formatted"
 expect_line "save pyproject without ruff=x = 1"
+expect_line "messages after saves=0"
 expect_line "manual format=-- formatted"
 expect_line "save after toggle=x = 1"
 expect_line "map n <leader>cf=desc"
@@ -313,6 +314,32 @@ run PATH="$tmp/bin-no-ts" PROBE_PROJECT="$tmp/project" \
 expect_exit_0
 expect_line "save with config=x = 1"
 expect_line "save pyproject with ruff=x = 1"
+expect_line "messages after saves=0"
+
+#-----------------------------------------------------------
+section "LangInstall reports failures"
+#-----------------------------------------------------------
+run PROBE_EXTRA="$repo/tests/extra/langinstall.lua"
+expect_exit_0
+expect_line "message=LangInstall: could not update the package list (network?)"
+expect_line "message=LangInstall: clangd is already being installed"
+expect_line "message=LangInstall: ruff failed: no npm"
+
+#-----------------------------------------------------------
+section "offline host"
+#-----------------------------------------------------------
+cat >"$tmp/extra-offline.lua" <<'EOF'
+local fuzzy = require('blink.cmp.config').fuzzy
+probe_put('blink matcher', fuzzy.implementation .. ' download=' .. tostring(fuzzy.prebuilt_binaries.download))
+EOF
+run PROBE_EXTRA="$tmp/extra-offline.lua"
+expect_line "blink matcher=prefer_rust download=true"
+echo "return { offline = true }" >"$cfg/lua/local.lua"
+run PROBE_EXTRA="$tmp/extra-offline.lua"
+rm -f "$cfg/lua/local.lua"
+expect_exit_0
+expect_messages 0
+expect_line "blink matcher=lua download=false"
 
 #-----------------------------------------------------------
 section "local.lua switches off a plugin and a language"

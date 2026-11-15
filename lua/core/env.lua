@@ -8,7 +8,7 @@
 
 local M = {}
 
-local overrides = { plugins = {}, langs = {}, format_on_save = true }
+local overrides = { plugins = {}, langs = {}, format_on_save = true, offline = false }
 
 local path = vim.fn.stdpath('config') .. '/lua/local.lua'
 if vim.uv.fs_stat(path) then
@@ -22,6 +22,9 @@ end
 
 -- format files on save (only in projects that configure the formatter)
 M.format_on_save = overrides.format_on_save ~= false
+
+-- host without network: plugins don't try to download anything
+M.offline = overrides.offline == true
 
 -- true when running inside a ssh session
 M.ssh = vim.env.SSH_TTY ~= nil

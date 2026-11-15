@@ -19,4 +19,8 @@ return {
 
   -- format on save in projects that configure a formatter
   -- format_on_save = false,
+
+  -- no network on this host: plugins don't try to download
+  -- (completion then uses its slower lua matcher)
+  -- offline = true,
 }

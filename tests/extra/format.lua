@@ -12,6 +12,10 @@ probe_put('save with config', save('with-config/a.lua'))
 probe_put('save without config', save('without-config/a.lua'))
 probe_put('save pyproject with ruff', save('ruff-project/a.py'))
 probe_put('save pyproject without ruff', save('other-project/a.py'))
+-- saving never notifies, even when a formatter is missing
+-- (let scheduled notifications arrive first)
+vim.wait(200)
+probe_put('messages after saves', #vim.split(vim.trim(vim.fn.execute('messages')), '\n', { trimempty = true }))
 
 -- the manual key formats regardless of project configuration
 vim.cmd.edit(base .. '/without-config/b.lua')

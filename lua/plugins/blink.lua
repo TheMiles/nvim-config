@@ -16,9 +16,13 @@ return {
   dependencies = { 'rafamadriz/friendly-snippets' },
   opts = {
     keymap = { preset = 'super-tab' },
+    -- the fast matcher is downloaded once; an offline host (see
+    -- lua/local.lua) uses the lua matcher, else it would retry and
+    -- complain on every start
+    fuzzy = require('core.env').offline
+        and { implementation = 'lua', prebuilt_binaries = { download = false } }
+      or { implementation = 'prefer_rust' },
     sources = { default = { 'lsp', 'path', 'snippets', 'buffer' } },
     completion = { documentation = { auto_show = true } },
-    -- without the prebuilt matcher (offline host) use the lua one, silently
-    fuzzy = { implementation = 'prefer_rust' },
   },
 }
